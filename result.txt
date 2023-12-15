@@ -1,0 +1,24 @@
+Interface Vlan 1
+  Tagged TenGigabitEthernet 0/1
+  Tagged port-channel 1
+
+Interface Vlan 2
+  Tagged TenGigabitEthernet 0/1
+  Tagged TenGigabitEthernet 0/2
+
+Interface Vlan 3
+  Tagged TenGigabitEthernet 0/1
+  Tagged TenGigabitEthernet 0/2
+
+Interface Vlan 4
+  Tagged TenGigabitEthernet 0/2
+
+Interface Vlan 5
+  Tagged port-channel 1
+
+Interface Vlan 6
+  Tagged port-channel 1
+
+Interface Vlan 7
+  Tagged port-channel 1
+

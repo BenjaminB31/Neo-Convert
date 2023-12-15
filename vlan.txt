@@ -1,0 +1,14 @@
+interface Te1/0/1
+switchport mode trunk
+switchport trunk allowed vlan 1,2,3
+exit
+!
+interface Te1/0/2
+switchport mode trunk
+switchport trunk allowed vlan 2,3,4
+exit
+!
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 1,5,6,7
+exit
