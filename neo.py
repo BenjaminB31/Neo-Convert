@@ -2,6 +2,22 @@ import os
 from collections import defaultdict
 import re
 
+# Fonction pour extraire les noms de VLAN
+def extract_vlan_names(config):
+    vlan_names = {}
+    lines = config.splitlines()
+    current_vlan = None
+
+    for line in lines:
+        words = line.split()
+        if len(words) > 1:
+            if words[0] == 'vlan':
+                current_vlan = words[1]
+            elif words[0] == 'name' and current_vlan:
+                vlan_names[current_vlan] = words[1][1:-1]  # Exclure les guillemets
+
+    return vlan_names
+
 # Chemin du fichier actuel
 current_directory = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(current_directory, 'vlan.txt')
@@ -9,6 +25,9 @@ file_path = os.path.join(current_directory, 'vlan.txt')
 # Lecture du contenu du fichier
 with open(file_path, 'r') as file:
     text = file.read()
+
+# Utilisation de la fonction pour extraire les noms de VLAN
+vlan_names = extract_vlan_names(text)
 
 # Dictionnaire pour stocker les VLAN par interface
 vlan_table = defaultdict(list)
@@ -56,6 +75,9 @@ output_file_path = os.path.join(current_directory, 'result.txt')
 with open(output_file_path, 'w') as output_file:
     for vlan, interfaces in sorted(vlan_interfaces.items(), key=lambda x: int(x[0])):
         output_file.write(f"Interface Vlan {vlan}\n")
+        vlan_name = vlan_names.get(vlan)
+        if vlan_name:
+            output_file.write(f"  Name \"{vlan_name}\"\n")
         for interface, mode in interfaces:
             if mode == 'tagged':
                 if "port-channel" in interface:
